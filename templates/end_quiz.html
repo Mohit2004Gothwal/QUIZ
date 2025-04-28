@@ -1,0 +1,29 @@
+<!-- templates/end_quiz.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Quiz Over</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+</head>
+<body>
+    <h1>Quiz Over!</h1>
+    <p>Score: {{ score }} / {{ questions|length }}</p>
+    <h2>Summary:</h2>
+    <ul class="summary-list">
+        {% for idx in range(questions|length) %}
+            {% set user_answer = user_answers.get(idx, 'No answer') %}
+            {% set correct_answer = questions[idx]['answer'] %}
+            <li>
+                <strong>Q{{ idx + 1 }}: {{ questions[idx]['question'] }}</strong><br />
+                My answer: <span class="{% if user_answer == correct_answer %}correct-answer{% else %}wrong-answer{% endif %}">
+                    {{ user_answer }} : {{ questions[idx]['options'].get(user_answer, 'No answer text') }}
+                </span><br />
+                Correct answer: {{ correct_answer }} : {{ questions[idx]['options'].get(correct_answer, 'No answer text') }}
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="/">Start New Quiz</a>
+</body>
+</html>
